@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
+
+#root {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 auto;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.app {
+  position: relative;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.dark-mode {
+  background-color: hsl(178, 20%, 30%);
+  color: hsl(183, 31%, 57%);
+}
+
+.light-mode {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.card-container {
+  margin-left: 12rem;
+  margin-right: 12rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+/* Remove the absolute positioning for mode-toggle */
+.mode-toggle {
+  /* Remove position: absolute */
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: hsl(183, 50%, 90%);
+  color: hsl(183, 50%, 10%);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.mode-toggle:hover {
+  background-color: #bdd5be;
+}
+
+.dark-mode .mode-toggle {
+  background-color: #e9f0ef;
+  color: #50998d;
+}
+
+.dark-mode .mode-toggle:hover {
+  background-color: #133b33;
+}
+
+.card {
+  padding: 2em;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+  text-align: left;
+  margin: 0.5rem;
+}
+
+.dark-mode .card {
+  background-color: #333;
+  border-color: #555;
+  color: rgba(255, 255, 255, 0.87);
+}
+
+.read-the-docs {
+  color: #888;
+}
+/* shuffle button customization */
+/* Update app-header styles */
+.app-header {
+  display: flex;
+  justify-content: space-between; /* Distribute space between items */
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode .app-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Style for both buttons to ensure consistency */
+.mode-toggle,
+.shuffle-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Light mode button styles */
+.mode-toggle,
+.shuffle-button {
+  color: hsl(183, 51%, 25%);
+  background-color: #a2b5a3;
+}
+
+.mode-toggle:hover,
+.shuffle-button:hover {
+  background-color: #96a397;
+}
+
+/* Dark mode button styles */
+.dark-mode .mode-toggle,
+.dark-mode .shuffle-button {
+  color: #a7c3b2;
+  background-color: #325071;
+}
+
+.dark-mode .mode-toggle:hover,
+.dark-mode .shuffle-button:hover {
+  background-color: #1a4879;
+}
+
+/* Update app-title to work with the new header */
+.app-title {
+  text-align: center;
+  color: #2c3e50;
+  font-size: 2.5rem;
+  font-weight: 700;
+  padding: 1rem;
+  margin: 0; /* Remove margin to prevent spacing issues */
+}
+
+.dark-mode .app-title {
+  color: #8fb7c1;
+}
+
+.arabic-text {
+  font-family: 'Noto Nastaliq Urdu', serif;
+  font-size: 2rem;
+  line-height: 2.8;
+  direction: rtl;
+  text-align: center; /* Changed from right to center */
+  font-weight: 400;
+  color: inherit;
+  margin: 1.5rem 0;
+  word-spacing: 0.10em;
+}
+.dark-mode .arabic-text {
+  color: #e6e6e6;
+}

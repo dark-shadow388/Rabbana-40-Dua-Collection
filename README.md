@@ -1,1 +1,1 @@
-# Rabbana-40-Dua-Collection
+# Rabbana-Dua-Collection
