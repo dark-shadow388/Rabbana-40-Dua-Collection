@@ -273,3 +273,42 @@
     padding: 0;
   }
 }
+
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #b9b9b9;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+/* Dark mode scrollbar */
+.dark-mode ::-webkit-scrollbar-thumb {
+  background: rgba(167, 195, 178, 0.3);
+}
+
+.dark-mode ::-webkit-scrollbar-thumb:hover {
+  background: rgba(167, 195, 178, 0.5);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #1f5d60 transparent;
+}
+
+.dark-mode * {
+  scrollbar-color: rgba(167, 195, 178, 0.3) transparent;
+}
