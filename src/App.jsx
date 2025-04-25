@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import Card from './Card.jsx';
 import appData from './appData.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMoon, faSun, faShuffle } from '@fortawesome/free-solid-svg-icons';
 
 function App() {
   const [currentlyPlaying, setCurrentlyPlaying] = useState(null);
@@ -30,9 +32,24 @@ function App() {
     setShuffledData(shuffled);
   };
 
+  // Add scroll detection
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setIsScrolled(scrollPosition > 100);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <div
-      className={darkMode ? 'app dark-mode' : 'app'}
+      className={`app ${darkMode ? 'dark-mode' : ''} ${
+        isScrolled ? 'scrolled' : ''
+      }`}
       style={{
         backgroundColor: darkMode ? '#202420' : '#e0eee0',
         minHeight: '100vh',
@@ -41,10 +58,18 @@ function App() {
       <h1 className="app-title">Dua App</h1>
       <div className="app-header">
         <button onClick={shuffleCards} className="shuffle-button">
-          Shuffle Cards
+          <FontAwesomeIcon icon={faShuffle} className="shuffle-icon" />
         </button>
-        <button onClick={toggleMode} className="mode-toggle">
-          {darkMode ? 'Light Mode' : 'Dark Mode'}
+        <h2 className="header-title">Dua App</h2>
+        <button
+          onClick={toggleMode}
+          className="theme-toggle"
+          title="Toggle theme"
+        >
+          <div className="sun-moon-container">
+            <FontAwesomeIcon icon={faSun} className="sun" />
+            <FontAwesomeIcon icon={faMoon} className="moon" />
+          </div>
         </button>
       </div>
       <div className="card-container">

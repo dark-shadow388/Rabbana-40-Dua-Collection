@@ -84,11 +84,17 @@
 /* shuffle button customization */
 /* Update app-header styles */
 .app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
   display: flex;
-  justify-content: space-between; /* Distribute space between items */
+  justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  padding: 0.5rem 1rem; /* Reduced vertical padding */
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: inherit; /* Inherits the app's background color */
+  backdrop-filter: blur(8px); /* Adds a blur effect to the background */
+  min-height: 48px; /* Set a fixed minimum height */
 }
 
 .dark-mode .app-header {
@@ -98,12 +104,17 @@
 /* Style for both buttons to ensure consistency */
 .mode-toggle,
 .shuffle-button {
-  padding: 10px 20px;
+  padding: 6px 12px; /* Reduced padding */
   font-size: 1rem;
   font-weight: bold;
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  height: 36px; /* Fixed height */
+  min-width: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: background-color 0.3s ease;
 }
 
@@ -139,6 +150,7 @@
   font-weight: 700;
   padding: 1rem;
   margin: 0; /* Remove margin to prevent spacing issues */
+  transition: all 0.3s ease;
 }
 
 .dark-mode .app-title {
@@ -154,8 +166,110 @@
   font-weight: 400;
   color: inherit;
   margin: 1.5rem 0;
-  word-spacing: 0.10em;
+  word-spacing: 0.1em;
 }
 .dark-mode .arabic-text {
   color: #e6e6e6;
+}
+
+.theme-toggle {
+  border: 1px solid var(--divider-light);
+  border-radius: 8px;
+  padding: 6px 12px; /* Reduced padding */
+  background-color: transparent;
+  cursor: pointer;
+  height: 36px; /* Fixed height */
+  width: 36px; /* Fixed width */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.25s;
+}
+
+.theme-toggle:hover {
+  border-color: #646cff;
+}
+
+.sun-moon-container {
+  position: relative;
+  width: 24px; /* Increased from 20px */
+  height: 24px; /* Increased from 20px */
+}
+
+.sun,
+.moon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: opacity 0.25s, transform 0.25s;
+  font-size: 24px; /* Add this line to increase icon size */
+}
+
+.dark-mode .sun {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+.dark-mode .moon {
+  color: #a7c3b2; /* Dark mode moon color - matches shuffle button */
+  opacity: 0;
+  transform: rotate(90deg);
+}
+
+.sun {
+  opacity: 0;
+  transform: rotate(-90deg);
+  color: #8fb7c1; /* Dark mode sun color - matches shuffle button */
+}
+
+.moon {
+  opacity: 1;
+  transform: rotate(0deg);
+  color: hsl(
+    183,
+    51%,
+    25%
+  ); /* Light mode moon color - matches shuffle button */
+}
+
+.shuffle-icon {
+  margin-right: 8px;
+  font-size: 14px; /* Slightly smaller icon */
+}
+
+.shuffle-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Add a condensed header title that shows on scroll */
+.header-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #2c3e50;
+  font-size: 1.2rem; /* Reduced font size */
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.dark-mode .header-title {
+  color: #8fb7c1;
+}
+
+/* Show header title when scrolled */
+@media screen and (min-width: 768px) {
+  .app.scrolled .header-title {
+    opacity: 1;
+  }
+
+  .app.scrolled .app-title {
+    opacity: 0;
+    height: 0;
+    padding: 0;
+  }
 }
