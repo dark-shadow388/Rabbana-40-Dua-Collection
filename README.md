@@ -13,7 +13,7 @@ Welcome to the Rabbana Dua Collection - a comprehensive application featuring 40
 ## Screenshots
 
 <img src="/public/assets/Screenshot 2025-04-25 111659.png">
-<img src="/public/assets/Screenshot 2025-04-25 111659.png">
+<img src="/public/assets/Screenshot 2025-04-25 111708.png">
 <img src="/public/assets/Screenshot 2025-04-25 111724.png">
 <img src="/public/assets/Screenshot 2025-04-25 111730.png">
 <img src="/public/assets/Screenshot 2025-04-25 111746.png">
