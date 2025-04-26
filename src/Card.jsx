@@ -17,13 +17,20 @@ function Card({
   audioUrl,
   currentlyPlaying,
   setCurrentlyPlaying,
+  globalVolume,
+  setGlobalVolume,
+  isGlobalMuted,
+  setIsGlobalMuted,
 }) {
   const audioRef = useRef(null);
   const [progress, setProgress] = useState(0);
-  const [volume, setVolume] = useState(1);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
-  const previousVolume = useRef(1);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = isGlobalMuted ? 0 : globalVolume;
+    }
+  }, [globalVolume, isGlobalMuted]);
 
   const handlePlayPause = () => {
     if (audioRef.current.paused) {
@@ -62,11 +69,9 @@ function Card({
 
   const handleVolumeChange = (event) => {
     const newVolume = parseFloat(event.target.value);
-    setVolume(newVolume);
-    if (audioRef.current) {
-      audioRef.current.volume = newVolume;
-      setIsMuted(newVolume === 0);
-    }
+    setGlobalVolume(newVolume);
+    setIsGlobalMuted(newVolume === 0);
+
     // Update the slider gradient
     event.target.style.setProperty(
       '--volume-percentage',
@@ -74,18 +79,24 @@ function Card({
     );
   };
 
-  const handleMuteToggle = () => {
-    if (audioRef.current) {
-      if (!isMuted) {
-        previousVolume.current = volume;
-        audioRef.current.volume = 0;
-        setVolume(0);
-      } else {
-        audioRef.current.volume = previousVolume.current;
-        setVolume(previousVolume.current);
-      }
-      setIsMuted(!isMuted);
+  const handleVolumeWheel = (event) => {
+    event.preventDefault(); // Prevent page scroll
+    const direction = event.deltaY < 0 ? 1 : -1;
+    const step = 0.05; // 5% volume change per scroll
+    const newVolume = Math.min(Math.max(globalVolume + direction * step, 0), 1);
+
+    setGlobalVolume(newVolume);
+    setIsGlobalMuted(newVolume === 0);
+
+    // Update the slider gradient
+    const slider = event.currentTarget.querySelector('.volume-slider');
+    if (slider) {
+      slider.style.setProperty('--volume-percentage', `${newVolume * 100}%`);
     }
+  };
+
+  const handleMuteToggle = () => {
+    setIsGlobalMuted(!isGlobalMuted);
   };
 
   const handleEnded = () => {
@@ -140,10 +151,10 @@ function Card({
                 style={{ width: `${progress}%` }}
               />
             </div>
-            <div className="volume-control">
+            <div className="volume-control" onWheel={handleVolumeWheel}>
               <FontAwesomeIcon
-                icon={isMuted ? faVolumeMute : faVolumeUp}
-                className={`volume-icon ${isMuted ? 'muted' : ''}`}
+                icon={isGlobalMuted ? faVolumeMute : faVolumeUp}
+                className={`volume-icon ${isGlobalMuted ? 'muted' : ''}`}
                 onClick={handleMuteToggle}
               />
               <input
@@ -151,9 +162,14 @@ function Card({
                 min="0"
                 max="1"
                 step="0.01"
-                value={volume}
+                value={isGlobalMuted ? 0 : globalVolume}
                 onChange={handleVolumeChange}
                 className="volume-slider"
+                style={{
+                  '--volume-percentage': `${
+                    (isGlobalMuted ? 0 : globalVolume) * 100
+                  }%`,
+                }}
               />
             </div>
           </div>

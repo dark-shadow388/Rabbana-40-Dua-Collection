@@ -45,6 +45,10 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Add these new states
+  const [globalVolume, setGlobalVolume] = useState(1);
+  const [isGlobalMuted, setIsGlobalMuted] = useState(false);
+
   return (
     <div
       className={`app ${darkMode ? 'dark-mode' : ''} ${
@@ -84,6 +88,11 @@ function App() {
             audioUrl={app.audioUrl}
             currentlyPlaying={currentlyPlaying}
             setCurrentlyPlaying={setCurrentlyPlaying}
+            // Add these new props
+            globalVolume={globalVolume}
+            setGlobalVolume={setGlobalVolume}
+            isGlobalMuted={isGlobalMuted}
+            setIsGlobalMuted={setIsGlobalMuted}
           />
         ))}
       </div>
