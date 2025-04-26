@@ -1,4 +1,11 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faPlay,
+  faPause,
+  faVolumeUp,
+  faVolumeMute,
+} from '@fortawesome/free-solid-svg-icons';
 import './Card.css';
 
 function Card({
@@ -13,19 +20,26 @@ function Card({
 }) {
   const audioRef = useRef(null);
   const [progress, setProgress] = useState(0);
+  const [volume, setVolume] = useState(1);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const previousVolume = useRef(1);
 
-  const handlePlay = () => {
-    if (currentlyPlaying && currentlyPlaying !== audioRef.current) {
-      currentlyPlaying.pause();
-      currentlyPlaying.currentTime = 0; // Reset the previous audio
-    }
-    setCurrentlyPlaying(audioRef.current);
-    audioRef.current.play();
-  };
-
-  const handlePause = () => {
-    if (currentlyPlaying === audioRef.current) {
-      setCurrentlyPlaying(null);
+  const handlePlayPause = () => {
+    if (audioRef.current.paused) {
+      if (currentlyPlaying && currentlyPlaying !== audioRef.current) {
+        currentlyPlaying.pause();
+        currentlyPlaying.currentTime = 0; // Reset the previous audio
+      }
+      setCurrentlyPlaying(audioRef.current);
+      audioRef.current.play();
+      setIsPlaying(true);
+    } else {
+      audioRef.current.pause();
+      setIsPlaying(false);
+      if (currentlyPlaying === audioRef.current) {
+        setCurrentlyPlaying(null);
+      }
     }
   };
 
@@ -43,6 +57,41 @@ function Card({
       const clickX = e.nativeEvent.offsetX;
       const newTime = (clickX / timelineWidth) * audioRef.current.duration;
       audioRef.current.currentTime = newTime;
+    }
+  };
+
+  const handleVolumeChange = (event) => {
+    const newVolume = parseFloat(event.target.value);
+    setVolume(newVolume);
+    if (audioRef.current) {
+      audioRef.current.volume = newVolume;
+      setIsMuted(newVolume === 0);
+    }
+    // Update the slider gradient
+    event.target.style.setProperty(
+      '--volume-percentage',
+      `${newVolume * 100}%`
+    );
+  };
+
+  const handleMuteToggle = () => {
+    if (audioRef.current) {
+      if (!isMuted) {
+        previousVolume.current = volume;
+        audioRef.current.volume = 0;
+        setVolume(0);
+      } else {
+        audioRef.current.volume = previousVolume.current;
+        setVolume(previousVolume.current);
+      }
+      setIsMuted(!isMuted);
+    }
+  };
+
+  const handleEnded = () => {
+    setIsPlaying(false);
+    if (currentlyPlaying === audioRef.current) {
+      setCurrentlyPlaying(null);
     }
   };
 
@@ -73,18 +122,10 @@ function Card({
               src={audioUrl}
               preload="metadata"
               style={{ display: 'none' }}
-              onPlay={handlePlay}
-              onPause={handlePause}
+              onEnded={handleEnded}
             />
-            <button
-              className="audio-button"
-              onClick={() =>
-                audioRef.current.paused
-                  ? handlePlay()
-                  : audioRef.current.pause()
-              }
-            >
-              {currentlyPlaying === audioRef.current ? 'Pause' : 'Play'}
+            <button className="audio-button" onClick={handlePlayPause}>
+              <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} />
             </button>
             <div
               className="audio-timeline"
@@ -97,6 +138,22 @@ function Card({
               <div
                 className="audio-timeline-progress"
                 style={{ width: `${progress}%` }}
+              />
+            </div>
+            <div className="volume-control">
+              <FontAwesomeIcon
+                icon={isMuted ? faVolumeMute : faVolumeUp}
+                className={`volume-icon ${isMuted ? 'muted' : ''}`}
+                onClick={handleMuteToggle}
+              />
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                value={volume}
+                onChange={handleVolumeChange}
+                className="volume-slider"
               />
             </div>
           </div>
