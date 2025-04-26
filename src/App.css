@@ -327,11 +327,11 @@
   position: relative;
   width: 32px;
   overflow: hidden;
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .volume-control:hover {
-  width: 120px;
+  width: 140px;
 }
 
 .volume-icon {
@@ -342,13 +342,11 @@
   cursor: pointer;
   padding: 8px;
   border-radius: 50%;
-  background-color: transparent;
   transform: scale(1);
 }
 
 .volume-icon:hover {
   transform: scale(1.1);
-  background-color: rgba(162, 181, 163, 0.2);
 }
 
 .volume-icon:active {
@@ -364,7 +362,6 @@
 .volume-icon.muted:hover {
   opacity: 1;
   transform: scale(1);
-  background-color: rgba(150, 163, 151, 0.2);
 }
 
 /* Dark mode adjustments */
@@ -372,17 +369,9 @@
   color: #8fb7c1;
 }
 
-.dark-mode .volume-icon:hover {
-  background-color: rgba(143, 183, 193, 0.1);
-}
-
 .dark-mode .volume-icon.muted {
   color: #325071;
   opacity: 0.7;
-}
-
-.dark-mode .volume-icon.muted:hover {
-  background-color: rgba(50, 80, 113, 0.2);
 }
 
 .volume-slider {
@@ -399,9 +388,15 @@
   outline: none;
   position: relative;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   opacity: 0;
   transform: translateX(-100%);
+  margin-left: auto; /* Add this */
+  margin-right: 0; /* Add this */
+}
+
+.volume-slider:hover {
+  height: 6px;
 }
 
 .volume-slider::-webkit-slider-thumb {
@@ -413,13 +408,19 @@
   border: 2px solid #a2b5a3;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: scale(1);
 }
 
 .volume-slider::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
+  transform: scale(1.3);
   background: hsl(183, 51%, 30%);
   border-color: #96a397;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.volume-slider::-webkit-slider-thumb:active {
+  transform: scale(1.2);
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .volume-control:hover .volume-slider {
@@ -446,10 +447,6 @@
   background: #a7c3b2;
   border-color: #1a4879;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
-}
-
-.dark-mode .volume-icon {
-  color: #8fb7c1;
 }
 
 /* Firefox support */
